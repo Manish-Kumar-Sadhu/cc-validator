@@ -5,6 +5,8 @@ import "rsuite/dist/rsuite.min.css";
 import CheckOutlineIcon from "@rsuite/icons/CheckOutline";
 import CloseOutlineIcon from "@rsuite/icons/CloseOutline";
 
+import { identifyCreditCardProvider } from "./utils";
+
 function App() {
   const [creditCardNumber, setCreditCardNumber] = useState("");
   const [formattedCardNumber, setFormattedCardNumber] = useState("");
@@ -56,6 +58,7 @@ function App() {
   // Function to handle form submission
   async function handleSubmit() {
     await validateCreditCard(creditCardNumber.replace(/\s/g, ""));
+    console.log(identifyCreditCardProvider(formattedCardNumber)?.Name)
   }
 
   const handleCloseModal = () => {
@@ -75,14 +78,16 @@ function App() {
               name="cardNumber"
               type="text"
               value={creditCardNumber}
+              maxLength={19}
               onChange={handleCardNumberChange}
+              autoComplete="off"
             />
           </Form.Group>
           <Form.Group>
             <Button
               type="submit"
               appearance="primary"
-              disabled={creditCardNumber.length === 0}
+              disabled={creditCardNumber.length <=16}
             >
               Validate
             </Button>
@@ -101,20 +106,29 @@ function App() {
             {modalErrorMessage ? (
               <p>{modalErrorMessage}</p>
             ) : (
-              <p>
-                Cerdit Card : <b>{formattedCardNumber}</b> is  {" "}
-                <b>
-                  {isValidCard ? (
-                    <>
-                       Valid <CheckOutlineIcon color="#6cc5b4" />
-                    </>
-                  ) : (
-                    <>
-                      Invalid <CloseOutlineIcon color="#FF0000" />
-                    </>
-                  )}{" "}
-                </b>
-              </p>
+              <>
+                <p>
+                  Cerdit Card : <b>{formattedCardNumber}</b>
+                </p>
+                <p>
+                  Validity Status:{" "}
+                  <b>
+                    {isValidCard ? (
+                      <>
+                        Valid <CheckOutlineIcon color="#6cc5b4" />
+                      </>
+                    ) : (
+                      <>
+                        Invalid <CloseOutlineIcon color="#FF0000" />
+                      </>
+                    )}{" "}
+                  </b>
+                </p>
+                <p>
+                  Provider :
+                  { isValidCard && identifyCreditCardProvider(formattedCardNumber)?.Name}
+                </p>
+              </>
             )}
           </Modal.Body>
           <Modal.Footer>
