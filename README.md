@@ -4,8 +4,8 @@
 In the project directory, you can run to start the front-end:
 
 # Credit Card Validation Front-End
-
-run the below command to start the front-end server
+run the below commands in sequence to start the front-end server
+### `npm i`
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -19,7 +19,8 @@ You may also see any lint errors in the console.
 
 Navigate to the server folder from the root folder
 
-run the below command to start the backend server
+run the below commands in sequence to start the backend server
+### `npm i`
 ### `npm start`
 
 
